@@ -1,0 +1,1767 @@
+/* ============================================================
+   ChatGraph — Apple design system
+   Dark / Light theme via CSS custom properties.
+   Accent colour set dynamically on #chatgraph-overlay via JS.
+   ============================================================ */
+
+/* ─── Custom properties — dark mode defaults ──────────────── */
+#chatgraph-overlay {
+  --accent:            #5856D6;
+  --accent-rgb:        88, 86, 214;
+
+  /* Canvas */
+  --bg-canvas:         #000000;
+  --dot-color:         rgba(255, 255, 255, 0.045);
+
+  /* Node cards */
+  --bg-node:           #1C1C1E;
+  --bg-node-header:    rgba(255, 255, 255, 0.035);
+  --bg-node-elevated:  #2C2C2E;
+  --border-node:       rgba(255, 255, 255, 0.08);
+  --shadow-node:       0 2px 8px rgba(0,0,0,0.5), 0 8px 28px rgba(0,0,0,0.4);
+
+  /* Text */
+  --text-primary:      rgba(255, 255, 255, 0.88);
+  --text-secondary:    rgba(235, 235, 245, 0.55);
+  --text-tertiary:     rgba(235, 235, 245, 0.28);
+  --text-code:         rgba(235, 235, 245, 0.82);
+
+  /* Input bar */
+  --bg-bar:            rgba(18, 18, 20, 0.94);
+  --bg-input:          rgba(255, 255, 255, 0.06);
+  --border-input:      rgba(255, 255, 255, 0.1);
+
+  /* Toolbar */
+  --bg-toolbar:        rgba(30, 30, 32, 0.9);
+  --border-toolbar:    rgba(255, 255, 255, 0.1);
+
+  /* Edges */
+  --edge-main:         rgba(255, 255, 255, 0.28);
+
+  /* Code */
+  --bg-code-inline:    rgba(255, 255, 255, 0.1);
+  --bg-code-block:     rgba(255, 255, 255, 0.04);
+  --border-code:       rgba(255, 255, 255, 0.07);
+
+  /* Syntax highlighting */
+  --hl-keyword:  #FF6B9D;
+  --hl-builtin:  #7DD3FC;
+  --hl-string:   #50C96B;
+  --hl-number:   #79DEFF;
+  --hl-comment:  rgba(235, 235, 245, 0.38);
+
+  /* LOD inverse-scale (set by applyTransform; default 1 = normal zoom) */
+  --inv-scale:   1;
+
+  /* Note nodes */
+  --bg-note:        rgba(28, 20, 0, 0.95);
+  --bg-note-header: rgba(255, 200, 40, 0.06);
+  --border-note:    rgba(200, 150, 30, 0.42);
+  --text-note:      rgba(255, 215, 80, 0.92);
+  --bg-note-tint:   rgba(200, 130, 0, 0.2);
+
+  /* Callouts */
+  --bg-callout:        rgba(255, 255, 255, 0.04);
+  --border-callout:    rgba(255, 255, 255, 0.12);
+
+  /* Sticky notes */
+  --bg-sticky:         #23210F;
+  --text-sticky:       rgba(255, 240, 160, 0.88);
+  --border-sticky:     rgba(200, 170, 40, 0.2);
+  --placeholder-sticky: rgba(255, 240, 160, 0.35);
+
+  /* Popup / modal */
+  --bg-popup:          #1C1C1E;
+  --border-popup:      rgba(255, 255, 255, 0.1);
+  --shadow-popup:      0 4px 32px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(255,255,255,0.08);
+}
+
+/* ─── Light mode overrides ────────────────────────────────── */
+#chatgraph-overlay.chatgraph-light {
+  --bg-canvas:         #F2F2F7;
+  --dot-color:         rgba(0, 0, 0, 0.055);
+
+  --bg-node:           #FFFFFF;
+  --bg-node-header:    rgba(0, 0, 0, 0.02);
+  --bg-node-elevated:  #F4F4F8;
+  --border-node:       transparent;
+  --shadow-node:       0 1px 4px rgba(0,0,0,0.06), 0 4px 20px rgba(0,0,0,0.07),
+                       0 0 0 0.5px rgba(0,0,0,0.06);
+
+  --text-primary:      rgba(0, 0, 0, 0.86);
+  --text-secondary:    rgba(60, 60, 67, 0.55);
+  --text-tertiary:     rgba(60, 60, 67, 0.3);
+  --text-code:         rgba(0, 0, 0, 0.78);
+
+  --bg-bar:            rgba(255, 255, 255, 0.92);
+  --bg-input:          rgba(0, 0, 0, 0.04);
+  --border-input:      rgba(0, 0, 0, 0.1);
+
+  --bg-toolbar:        rgba(255, 255, 255, 0.88);
+  --border-toolbar:    rgba(0, 0, 0, 0.1);
+
+  --edge-main:         rgba(0, 0, 0, 0.22);
+
+  --bg-code-inline:    rgba(0, 0, 0, 0.06);
+  --bg-code-block:     rgba(0, 0, 0, 0.03);
+  --border-code:       rgba(0, 0, 0, 0.07);
+
+  --hl-keyword:  #CF222E;
+  --hl-builtin:  #0969DA;
+  --hl-string:   #1A7F37;
+  --hl-number:   #0550AE;
+  --hl-comment:  rgba(60, 60, 67, 0.45);
+
+  --bg-callout:        rgba(0, 0, 0, 0.03);
+  --border-callout:    rgba(0, 0, 0, 0.1);
+
+  --bg-sticky:         #FFFCE6;
+  --text-sticky:       #4A3800;
+  --border-sticky:     rgba(160, 120, 0, 0.22);
+  --placeholder-sticky: rgba(74, 56, 0, 0.35);
+
+  --bg-popup:          #FFFFFF;
+  --border-popup:      rgba(0, 0, 0, 0.1);
+  --shadow-popup:      0 4px 32px rgba(0,0,0,0.14), 0 0 0 0.5px rgba(0,0,0,0.08);
+
+  /* Note nodes — light overrides */
+  --bg-note:        rgba(255, 252, 228, 0.98);
+  --bg-note-header: rgba(180, 120, 0, 0.04);
+  --border-note:    rgba(160, 100, 0, 0.3);
+  --text-note:      rgba(60, 38, 0, 0.88);
+  --bg-note-tint:   rgba(180, 110, 0, 0.12);
+}
+
+/* ─── Overlay ─────────────────────────────────────────────── */
+#chatgraph-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483600;
+  overflow: hidden;
+  /* display controlled by JS — starts hidden */
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--bg-canvas);
+  background-image: radial-gradient(circle, var(--dot-color) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 12px 12px;
+  cursor: grab;
+}
+
+/* ─── Canvas ──────────────────────────────────────────────── */
+#chatgraph-canvas {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+}
+
+/* ─── SVG layer ───────────────────────────────────────────── */
+#chatgraph-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* ─── Edges ───────────────────────────────────────────────── */
+.chatgraph-edge {
+  fill: none;
+  stroke: var(--edge-main);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.chatgraph-edge-branch {
+  stroke-width: 3;
+  opacity: 0.82;
+  /* stroke colour set inline via toNode.branchColor */
+}
+
+.chatgraph-sticky-connector {
+  fill: none;
+  stroke: var(--edge-main);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 4;
+  opacity: 0.45;
+}
+
+/* ─── Node cards ──────────────────────────────────────────── */
+.chatgraph-node {
+  position: absolute;
+  width: 480px;
+  background-color: var(--bg-node);
+  border: 1px solid var(--border-node);
+  border-radius: 14px;
+  box-shadow: var(--shadow-node);
+  overflow: hidden;
+  cursor: default;
+  transition: box-shadow 0.18s ease;
+}
+
+/* Active: accent ring */
+.chatgraph-node.active {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-node),
+              0 0 0 2.5px rgba(var(--accent-rgb), 0.18);
+}
+
+/* Branch: subtle colour tint derived from --branch-rgb set inline by JS */
+.chatgraph-node.branch-node {
+  border-color: rgba(var(--branch-rgb), 0.28);
+  background-image: linear-gradient(
+    rgba(var(--branch-rgb), 0.04),
+    rgba(var(--branch-rgb), 0.04)
+  );
+}
+
+/* Active branch: accent wins over branch tint */
+.chatgraph-node.active.branch-node {
+  border-color: var(--accent);
+}
+
+/* ─── Node header ─────────────────────────────────────────── */
+.node-header {
+  background: var(--bg-node-header);
+  padding: 11px 70px 10px 14px;
+  border-bottom: 1px solid var(--border-node);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* ─── YOU label row (contains YOU + optional tag pill) ────── */
+.node-user-label-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+}
+
+/* ─── Node tag pill ─────────────────────────────────────────*/
+.node-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--tag-color, var(--accent));
+  padding: 1px 6px 1px 5px;
+  border-radius: 20px;
+  border: 1px solid currentColor;
+  line-height: 1.45;
+  opacity: 0.88;
+}
+
+.node-tag-pill::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ─── Node expand button (appears on hover) ─────────────────*/
+.node-expand-btn {
+  position: absolute;
+  right: 38px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.12s, color 0.12s;
+}
+
+.chatgraph-node:hover .node-expand-btn { opacity: 1; }
+.node-expand-btn:hover {
+  background: var(--bg-node-elevated);
+  color: var(--text-secondary);
+}
+
+.node-user-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.9;
+  line-height: 1;
+}
+
+.node-user-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+}
+
+.node-collapse-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+}
+
+.node-collapse-btn:hover {
+  background: var(--bg-node-elevated);
+  color: var(--text-secondary);
+}
+
+/* ─── Node body ───────────────────────────────────────────── */
+.node-body {
+  padding: 12px 14px 14px;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.node-body::-webkit-scrollbar       { width: 4px; }
+.node-body::-webkit-scrollbar-track { background: transparent; }
+.node-body::-webkit-scrollbar-thumb {
+  background: var(--border-toolbar);
+  border-radius: 4px;
+}
+
+.node-ai-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  line-height: 1;
+  margin-bottom: 9px;
+}
+
+.node-ai-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ─── Markdown typography inside nodes ───────────────────── */
+.node-ai-text p            { margin: 0 0 10px; }
+.node-ai-text p:last-child { margin-bottom: 0; }
+.node-ai-text strong       { font-weight: 600; }
+.node-ai-text em           { font-style: italic; }
+
+.node-ai-text h1 {
+  font-size: 18px; font-weight: 700;
+  margin: 14px 0 6px; line-height: 1.3;
+  color: var(--text-primary);
+}
+.node-ai-text h2 {
+  font-size: 15.5px; font-weight: 600;
+  margin: 14px 0 6px; line-height: 1.35;
+  color: var(--text-primary);
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-node);
+}
+.node-ai-text h3 {
+  font-size: 14px; font-weight: 600;
+  margin: 10px 0 4px;
+  color: var(--text-primary);
+}
+
+.node-ai-text ul { padding-left: 18px; margin: 4px 0 10px; }
+.node-ai-text ol { padding-left: 20px; margin: 4px 0 10px; }
+.node-ai-text li { margin: 3px 0; }
+.node-ai-text ul li::marker { color: var(--text-tertiary); }
+.node-ai-text ol li::marker { color: var(--accent); font-weight: 600; }
+
+.node-ai-text hr {
+  border: none;
+  border-top: 1px solid var(--border-node);
+  margin: 12px 0;
+}
+
+.node-ai-text blockquote {
+  border-left: 2.5px solid var(--accent);
+  margin: 8px 0;
+  padding: 4px 0 4px 12px;
+  color: var(--text-secondary);
+}
+
+/* ─── Inline code ─────────────────────────────────────────── */
+.node-ai-text code {
+  font-family: ui-monospace, 'SF Mono', Menlo, Monaco, monospace;
+  font-size: 12.5px;
+  background: var(--bg-code-inline);
+  padding: 1.5px 5px;
+  border-radius: 5px;
+  color: var(--text-code);
+}
+
+/* ─── Code blocks ─────────────────────────────────────────── */
+.node-ai-text pre[data-code-block] {
+  background: var(--bg-code-block);
+  border: 1px solid var(--border-code);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 8px 0;
+  overflow-x: auto;
+  position: relative;
+}
+
+.node-ai-text pre[data-code-block] code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  white-space: pre;
+  display: block;
+}
+
+.code-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 9px;
+  border: 1px solid var(--border-code);
+  border-radius: 6px;
+  background: var(--bg-node);
+  color: var(--text-secondary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.12s;
+}
+
+.node-ai-text pre[data-code-block]:hover .code-copy-btn { opacity: 1; }
+.code-copy-btn:hover { background: var(--bg-node-elevated); }
+
+/* ─── Code language label ─────────────────────────────────── */
+.code-lang-label {
+  display: block;
+  font-family: ui-monospace, 'SF Mono', Menlo, Monaco, monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+  user-select: none;
+}
+
+/* ─── Syntax highlighting spans ───────────────────────────── */
+.node-ai-text .hl-kw      { color: var(--hl-keyword); }
+.node-ai-text .hl-builtin { color: var(--hl-builtin); }
+.node-ai-text .hl-str     { color: var(--hl-string); }
+.node-ai-text .hl-num     { color: var(--hl-number); }
+.node-ai-text .hl-comment { color: var(--hl-comment); font-style: italic; }
+
+/* Focus panel inherits the same hl- rules via .node-ai-text */
+
+/* ─── Tables ──────────────────────────────────────────────── */
+.node-ai-text table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+  margin: 8px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-code);
+}
+
+.node-ai-text th {
+  background: var(--bg-node-elevated);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 7px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-code);
+}
+
+.node-ai-text td {
+  padding: 6px 10px;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-code);
+}
+
+.node-ai-text tr:last-child td { border-bottom: none; }
+
+/* ─── Callouts ────────────────────────────────────────────── */
+.node-ai-text .callout {
+  background: var(--bg-callout);
+  border: 1px solid var(--border-callout);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 8px 0;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+/* ─── Text highlights (branch excerpts) ──────────────────── */
+.chatgraph-highlight {
+  border-radius: 2px;
+  padding: 0 1px;
+  color: inherit;
+}
+
+/* ─── Streaming cursor ────────────────────────────────────── */
+.streaming-cursor {
+  display: inline-block;
+  color: var(--accent);
+  animation: cg-blink 1s step-end infinite;
+  font-style: normal;
+}
+
+@keyframes cg-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ─── Toolbar ─────────────────────────────────────────────── */
+#chatgraph-toolbar {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px 7px;
+  background: var(--bg-toolbar);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border: 1px solid var(--border-toolbar);
+  border-radius: 12px;
+  z-index: 200;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.22);
+  white-space: nowrap;
+}
+
+.chatgraph-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.chatgraph-toolbar-btn:hover    { background: var(--bg-node-elevated); }
+.chatgraph-toolbar-btn:disabled { opacity: 0.28; pointer-events: none; }
+
+.chatgraph-toolbar-close {
+  color: var(--text-secondary);
+  font-size: 13.5px;
+}
+
+.toolbar-sep {
+  width: 1px;
+  height: 16px;
+  background: var(--border-toolbar);
+  margin: 0 3px;
+  flex-shrink: 0;
+}
+
+/* ─── Colour swatches ─────────────────────────────────────── */
+.chatgraph-color-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 3px;
+}
+
+.chatgraph-color-swatch {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.chatgraph-color-swatch:hover { transform: scale(1.15); }
+
+.chatgraph-color-swatch.selected {
+  outline-color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+/* ─── Input bar ───────────────────────────────────────────── */
+#chatgraph-input-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(680px, calc(100vw - 48px));
+  background: var(--bg-bar);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid var(--border-input);
+  border-radius: 18px;
+  padding: 12px 12px 12px 16px;
+  z-index: 200;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.28);
+}
+
+#chatgraph-active-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+  padding-left: 2px;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Smart follow-up suggestions ────────────────────────── */
+#chatgraph-suggestions {
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.suggestion-chip {
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.28);
+  color: var(--text-primary);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  transition: background 0.12s;
+}
+
+.suggestion-chip:hover {
+  background: rgba(var(--accent-rgb), 0.22);
+}
+
+.suggestion-loading {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  padding: 4px 2px;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+}
+
+#chatgraph-input-wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+#chatgraph-message-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 14.5px;
+  line-height: 1.5;
+  resize: none;
+  min-height: 22px;
+  max-height: 160px;
+  padding: 0;
+  caret-color: var(--accent);
+}
+
+#chatgraph-message-input::placeholder { color: var(--text-tertiary); }
+
+#chatgraph-send-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: opacity 0.15s, transform 0.1s;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  line-height: 1;
+}
+
+#chatgraph-send-btn:hover { opacity: 0.82; transform: scale(1.05); }
+
+/* ─── Toggle button (sits outside the overlay) ────────────── */
+#chatgraph-toggle-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2147483601;
+  padding: 9px 18px;
+  border-radius: 22px;
+  border: none;
+  background: rgba(30, 30, 32, 0.92);
+  color: rgba(255, 255, 255, 0.82);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(255, 255, 255, 0.07);
+  transition: transform 0.15s, box-shadow 0.15s;
+  -webkit-font-smoothing: antialiased;
+}
+
+#chatgraph-toggle-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+#chatgraph-toggle-btn.active {
+  background: var(--btn-accent, #5856D6);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
+}
+
+/* ─── Branch popup ────────────────────────────────────────── */
+.chatgraph-branch-popup {
+  position: fixed;
+  z-index: 300;
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  padding: 8px;
+  background: var(--bg-popup);
+  border: 1px solid var(--border-popup);
+  border-radius: 12px;
+  box-shadow: var(--shadow-popup);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.branch-question-input {
+  flex: 1;
+  min-width: 220px;
+  padding: 7px 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.branch-question-input:focus       { border-color: var(--accent); }
+.branch-question-input::placeholder { color: var(--text-tertiary); }
+
+.branch-submit-btn {
+  padding: 7px 13px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.branch-submit-btn:hover    { opacity: 0.85; }
+.branch-submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Inline API key entry */
+.branch-inline-key-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.branch-inline-key-input {
+  flex: 1;
+  padding: 7px 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+  outline: none;
+}
+
+.branch-inline-key-input:focus { border-color: var(--accent); }
+
+.branch-save-and-branch-btn {
+  padding: 7px 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ─── Sticky notes ────────────────────────────────────────── */
+.chatgraph-sticky {
+  position: absolute;
+  width: 210px;
+  background: var(--bg-sticky);
+  border: 1px solid var(--border-sticky);
+  border-radius: 3px;
+  box-shadow: 3px 5px 18px rgba(0, 0, 0, 0.4), 1px 1px 3px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  cursor: default;
+}
+
+.sticky-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 6px;
+  background: rgba(0, 0, 0, 0.1);
+  cursor: grab;
+}
+
+.sticky-btn {
+  padding: 3px 7px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.14);
+  color: var(--text-sticky);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, opacity 0.12s;
+  opacity: 0.8;
+}
+
+.sticky-btn:hover  { opacity: 1; background: rgba(0, 0, 0, 0.2); }
+.sticky-btn.active { background: var(--accent); color: #fff; opacity: 1; }
+
+.sticky-delete {
+  margin-left: auto;
+  padding: 3px 6px;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.sticky-textarea {
+  display: block;
+  width: 100%;
+  min-height: 96px;
+  padding: 10px 11px;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: 'Noteworthy', 'Marker Felt', 'Segoe Script', 'Ink Free', cursive;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-sticky);
+  box-sizing: border-box;
+}
+
+.sticky-textarea::placeholder { color: var(--placeholder-sticky); }
+
+/* ─── Context menu ────────────────────────────────────────── */
+#chatgraph-ctx-menu {
+  position: fixed;
+  z-index: 400;
+  background: var(--bg-popup);
+  border: 1px solid var(--border-popup);
+  border-radius: 10px;
+  box-shadow: var(--shadow-popup);
+  overflow: hidden;
+  min-width: 160px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.chatgraph-ctx-sep {
+  height: 1px;
+  background: var(--border-popup);
+  margin: 3px 0;
+}
+
+.chatgraph-ctx-tag-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.ctx-tag-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ctx-tag-dot-active {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.chatgraph-ctx-item {
+  display: block;
+  width: 100%;
+  padding: 9px 14px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.chatgraph-ctx-item:hover { background: var(--bg-node-elevated); }
+.chatgraph-ctx-delete     { color: #FF453A; }
+
+/* ─── Settings backdrop + panel ──────────────────────────── */
+#chatgraph-settings-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#chatgraph-settings-panel {
+  background: var(--bg-popup);
+  border: 1px solid var(--border-popup);
+  border-radius: 16px;
+  box-shadow: var(--shadow-popup);
+  padding: 24px;
+  width: min(480px, calc(100vw - 48px));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.settings-close-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg-node-elevated);
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+}
+
+.settings-close-btn:hover {
+  background: var(--bg-node-elevated);
+  color: var(--text-primary);
+}
+
+.settings-section-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: -8px;
+}
+
+.settings-mode-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-mode-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--bg-node-elevated);
+  border: 1.5px solid var(--border-node);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.settings-mode-card.selected {
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.07);
+}
+
+.settings-mode-card input[type="radio"] {
+  margin-top: 2px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+}
+
+.settings-mode-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.settings-mode-text strong {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.settings-mode-text span {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.settings-key-note {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: -8px 0 0;
+}
+
+.settings-key-input {
+  width: 100%;
+  padding: 9px 12px;
+  background: var(--bg-node-elevated);
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.settings-key-input:focus { border-color: var(--accent); }
+
+.settings-save-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.settings-save-btn {
+  padding: 9px 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.settings-save-btn:hover { opacity: 0.85; }
+
+.settings-save-status {
+  font-size: 13px;
+  color: #30D158;
+  font-weight: 500;
+}
+
+/* ─── Search bar ─────────────────────────────────────────── */
+#chatgraph-search-bar {
+  position: fixed;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* display toggled by JS */
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--bg-toolbar);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border: 1px solid var(--border-toolbar);
+  border-radius: 10px;
+  z-index: 201;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  min-width: 280px;
+}
+
+.chatgraph-search-input {
+  flex: 1;
+  min-width: 180px;
+  padding: 5px 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: 7px;
+  color: var(--text-primary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13px;
+  outline: none;
+  caret-color: var(--accent);
+  transition: border-color 0.15s;
+}
+
+.chatgraph-search-input:focus       { border-color: var(--accent); }
+.chatgraph-search-input::placeholder { color: var(--text-tertiary); }
+
+.chatgraph-search-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  min-width: 52px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.chatgraph-search-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+}
+
+.chatgraph-search-btn:hover { background: var(--bg-node-elevated); }
+
+/* Node search highlights */
+.chatgraph-node.search-match {
+  box-shadow: var(--shadow-node), 0 0 0 2px rgba(var(--accent-rgb), 0.35);
+}
+
+.chatgraph-node.search-active {
+  box-shadow: var(--shadow-node), 0 0 0 3px var(--accent) !important;
+  border-color: var(--accent) !important;
+}
+
+/* ─── Export popover ─────────────────────────────────────── */
+#chatgraph-export-popover {
+  position: fixed;
+  z-index: 300;
+  background: var(--bg-popup);
+  border: 1px solid var(--border-popup);
+  border-radius: 10px;
+  box-shadow: var(--shadow-popup);
+  overflow: hidden;
+  min-width: 210px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.chatgraph-export-item {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.chatgraph-export-item:hover { background: var(--bg-node-elevated); }
+
+/* ─── Minimap ─────────────────────────────────────────────── */
+#chatgraph-minimap {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  width: 180px;
+  height: 120px;
+  background: var(--bg-toolbar);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  border: 1px solid var(--border-toolbar);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 150;
+  cursor: crosshair;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.22);
+}
+
+#chatgraph-minimap-canvas {
+  display: block;
+  width: 180px;
+  height: 120px;
+}
+
+/* ─── Edge labels (SVG) ───────────────────────────────────── */
+.edge-label-bg {
+  fill: var(--bg-node);
+  stroke: var(--border-code);
+  stroke-width: 1;
+}
+
+.edge-label-text {
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--text-secondary);
+  pointer-events: none;
+}
+
+/* ─── Edge label inline editor ────────────────────────────── */
+#chatgraph-edge-label-editor {
+  position: fixed;
+  z-index: 400;
+  transform: translateX(-50%);
+}
+
+.chatgraph-edge-label-input {
+  display: block;
+  padding: 4px 12px;
+  border: 1.5px solid var(--accent);
+  border-radius: 20px;
+  background: var(--bg-popup);
+  color: var(--text-primary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  outline: none;
+  min-width: 110px;
+  text-align: center;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
+  caret-color: var(--accent);
+}
+
+.chatgraph-edge-label-input::placeholder { color: var(--text-tertiary); }
+
+/* ─── Scrollbar (inside node AI text) ────────────────────── */
+.node-ai-text::-webkit-scrollbar       { width: 4px; }
+.node-ai-text::-webkit-scrollbar-track { background: transparent; }
+.node-ai-text::-webkit-scrollbar-thumb {
+  background: var(--border-toolbar);
+  border-radius: 4px;
+}
+
+/* ─── Drag-to-connect port ───────────────────────────────── */
+.node-connect-port {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-node);
+  cursor: crosshair;
+  opacity: 0;
+  transition: opacity 0.18s, transform 0.12s;
+  z-index: 10;
+}
+
+.chatgraph-node:hover .node-connect-port { opacity: 1; }
+.node-connect-port:hover { transform: translateY(-50%) scale(1.25); }
+
+/* Highlight target node during a connect drag */
+.chatgraph-node.connect-target {
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow-node), 0 0 0 2.5px rgba(var(--accent-rgb), 0.45) !important;
+}
+
+/* Live bezier drawn while dragging a connection */
+.chatgraph-connect-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 7 4;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+/* ─── Synthesis node ─────────────────────────────────────── */
+.chatgraph-node.synthesis-node {
+  border-color: rgba(var(--accent-rgb), 0.55);
+  background-image: linear-gradient(
+    160deg,
+    rgba(var(--accent-rgb), 0.07),
+    rgba(var(--accent-rgb), 0.02)
+  );
+}
+
+.chatgraph-node.synthesis-node .node-user-label {
+  color: var(--accent);
+  opacity: 1;
+  letter-spacing: 0.06em;
+}
+
+.chatgraph-node.synthesis-node.active {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-node),
+              0 0 0 2.5px rgba(var(--accent-rgb), 0.25),
+              0 0 20px rgba(var(--accent-rgb), 0.12);
+}
+
+/* Synthesize toolbar button — slightly highlighted to draw attention */
+.chatgraph-toolbar-synthesize {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.chatgraph-toolbar-synthesize:hover {
+  background: rgba(var(--accent-rgb), 0.1) !important;
+}
+
+/* ─── Focus / reading mode ──────────────────────────────── */
+#chatgraph-focus-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#chatgraph-focus-panel {
+  background: var(--bg-node);
+  border: 1px solid var(--border-popup);
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(255,255,255,0.07);
+  width: min(760px, calc(100vw - 48px));
+  height: min(88vh, 920px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top bar: back button + node preview */
+.focus-topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-node);
+  flex-shrink: 0;
+}
+
+.focus-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  flex-shrink: 0;
+  transition: background 0.12s, color 0.12s;
+}
+
+.focus-back-btn:hover {
+  background: var(--bg-node-elevated);
+  color: var(--text-primary);
+}
+
+.focus-topbar-label {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* ── Scrollable content area */
+.focus-scrollable {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 36px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.focus-scrollable::-webkit-scrollbar       { width: 5px; }
+.focus-scrollable::-webkit-scrollbar-track { background: transparent; }
+.focus-scrollable::-webkit-scrollbar-thumb {
+  background: var(--border-toolbar);
+  border-radius: 4px;
+}
+
+.focus-you-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.focus-you-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+
+.focus-divider {
+  height: 1px;
+  background: var(--border-node);
+  flex-shrink: 0;
+}
+
+.focus-claude-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: -4px;
+}
+
+/* Inherits all .node-ai-text markdown rules, bumped to reading size */
+.focus-claude-text.node-ai-text {
+  font-size: 16px;
+  line-height: 1.82;
+}
+
+/* ── Notes section (pinned below scroll area) */
+.focus-notes-section {
+  border-top: 1px solid var(--border-node);
+  padding: 14px 36px 16px;
+  flex-shrink: 0;
+}
+
+.focus-notes-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+.focus-notes-input {
+  width: 100%;
+  min-height: 68px;
+  max-height: 140px;
+  resize: vertical;
+  background: var(--bg-node-elevated);
+  border: 1px solid var(--border-node);
+  border-radius: 10px;
+  padding: 10px 13px;
+  color: var(--text-primary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.55;
+  outline: none;
+  box-sizing: border-box;
+  caret-color: var(--accent);
+  transition: border-color 0.15s;
+}
+
+.focus-notes-input:focus         { border-color: rgba(var(--accent-rgb), 0.5); }
+.focus-notes-input::placeholder  { color: var(--text-tertiary); }
+
+/* ── Chat bar (pinned at bottom of panel) */
+.focus-chat-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border-node);
+  background: var(--bg-node-elevated);
+  border-radius: 0 0 20px 20px;
+  flex-shrink: 0;
+}
+
+.focus-chat-input {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: 12px;
+  padding: 9px 13px;
+  color: var(--text-primary);
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  min-height: 40px;
+  max-height: 120px;
+  caret-color: var(--accent);
+  transition: border-color 0.15s;
+}
+
+.focus-chat-input:focus        { border-color: rgba(var(--accent-rgb), 0.5); }
+.focus-chat-input::placeholder { color: var(--text-tertiary); }
+
+.focus-chat-send {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  line-height: 1;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.focus-chat-send:hover { opacity: 0.82; transform: scale(1.05); }
+
+/* ─── Note nodes ─────────────────────────────────────────── */
+.chatgraph-node.note-node {
+  background: var(--bg-note);
+  border-color: var(--border-note);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3), 0 6px 22px rgba(0,0,0,0.22);
+  width: 300px;
+}
+
+.chatgraph-node.note-node.active {
+  border-color: var(--text-note);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3), 0 6px 22px rgba(0,0,0,0.22),
+              0 0 0 2px rgba(200, 150, 30, 0.28);
+}
+
+.note-node-header {
+  background: var(--bg-note-header);
+  padding: 9px 38px 8px 12px;
+  border-bottom: 1px solid var(--border-note);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.note-node-label-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.note-node-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-note);
+  opacity: 0.9;
+}
+
+.note-node-ref {
+  font-size: 10.5px;
+  font-weight: 400;
+  color: var(--text-note);
+  opacity: 0.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  letter-spacing: 0;
+  font-style: italic;
+}
+
+.note-node-body {
+  padding: 10px 12px 12px;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+
+.note-node-body::-webkit-scrollbar       { width: 3px; }
+.note-node-body::-webkit-scrollbar-track { background: transparent; }
+.note-node-body::-webkit-scrollbar-thumb {
+  background: var(--border-note);
+  border-radius: 3px;
+}
+
+.note-node-textarea {
+  display: block;
+  width: 100%;
+  min-height: 80px;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: ui-rounded, -apple-system, system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-note);
+  caret-color: var(--text-note);
+  box-sizing: border-box;
+}
+
+.note-node-textarea::placeholder { color: var(--text-note); opacity: 0.3; }
+
+/* Note edges — dashed amber line */
+.chatgraph-edge-note {
+  fill: none;
+  stroke: var(--border-note);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 3;
+  opacity: 0.7;
+}
+
+/* LOD micro — note nodes show amber tint */
+.lod-micro .chatgraph-node.note-node {
+  background: var(--bg-note-tint) !important;
+  border-color: var(--border-note) !important;
+}
+
+/* ─── LOD micro — blank card mode when zoomed out ─────────── */
+/* Triggered when canvas scale < 0.45. Collapses nodes to fixed-height
+   rectangles so the graph topology is clean without text clutter.    */
+.lod-micro .chatgraph-node .node-body         { display: none !important; }
+.lod-micro .chatgraph-node .node-header       { display: none !important; }
+.lod-micro .chatgraph-node .node-connect-port { display: none !important; }
+.lod-micro .chatgraph-node .node-notes-inline { display: none !important; }
+
+.lod-micro .chatgraph-node {
+  height: 36px !important;
+  min-height: unset !important;
+  border-radius: 10px !important;
+}
+
+/* Branch nodes get a color-tinted background so threads stay distinguishable */
+.lod-micro .chatgraph-node.branch-node {
+  background-image: linear-gradient(
+    rgba(var(--branch-rgb), 0.22),
+    rgba(var(--branch-rgb), 0.12)
+  ) !important;
+  border-color: rgba(var(--branch-rgb), 0.48) !important;
+}
+
+/* Edges look lighter / thinner at low zoom */
+.lod-micro .chatgraph-edge        { stroke-width: 1.5 !important; opacity: 0.55 !important; }
+.lod-micro .chatgraph-edge-branch { stroke-width: 2   !important; opacity: 0.65 !important; }
+
+/* ─── Double-click zoom animation ────────────────────────────── */
+/* Applied transiently by JS — removed immediately after transition */
+#chatgraph-canvas.zooming {
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Node notes badge (in the YOU label row) ────────────────── */
+.node-notes-badge {
+  width: 20px;
+  height: 16px;
+  border-radius: 5px;
+  border: none;
+  background: rgba(var(--accent-rgb), 0.12);
+  color: var(--text-tertiary);
+  font-size: 9.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background 0.12s;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.node-notes-badge:hover { background: rgba(var(--accent-rgb), 0.24); }
+
+/* ─── Inline note preview inside node card ───────────────────── */
+.node-notes-inline {
+  padding: 8px 14px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-bottom: 1px solid var(--border-node);
+  background: rgba(var(--accent-rgb), 0.04);
+  max-height: 100px;
+  overflow-y: auto;
+  user-select: text;
+  -webkit-user-select: text;
+}
