@@ -102,4 +102,4 @@ Explicitly out of scope for now, but the natural next steps: support for other c
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+All rights reserved — see [LICENSE](LICENSE). This repo is public so the code, architecture, and approach can be viewed, but no permission is granted to copy, install, run, modify, redistribute, or sell this software, in whole or in part, for any purpose, without explicit permission from the author.
