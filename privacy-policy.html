@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — ChatGraph</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #FAFAF8;
+      color: #3A3A38;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 80px 24px 120px;
+    }
+
+    .brand {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8B8B85;
+      margin-bottom: 32px;
+    }
+
+    h1 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 36px;
+      font-weight: 500;
+      color: #1A1A18;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .updated {
+      font-size: 14px;
+      color: #9A9A94;
+      margin-bottom: 56px;
+    }
+
+    h2 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: #1A1A18;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      letter-spacing: -0.2px;
+    }
+
+    p {
+      font-size: 15px;
+      margin-bottom: 20px;
+      color: #4A4A46;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    li {
+      font-size: 15px;
+      color: #4A4A46;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #CDCDC6;
+    }
+
+    strong {
+      font-weight: 500;
+      color: #2A2A28;
+    }
+
+    a {
+      color: #5A5ABA;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: #5A5ABA40;
+      transition: text-decoration-color 0.2s;
+    }
+
+    a:hover {
+      text-decoration-color: #5A5ABA;
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: #DDDDD8;
+      margin: 56px 0;
+    }
+
+    .footer {
+      margin-top: 72px;
+      padding-top: 32px;
+      border-top: 1px solid #EAEAE6;
+      font-size: 13px;
+      color: #AEAEA8;
+    }
+
+    @media (max-width: 600px) {
+      .page { padding: 48px 20px 80px; }
+      h1 { font-size: 28px; }
+      h2 { font-size: 19px; margin-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="brand">ChatGraph</div>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated June 24, 2026</p>
+
+    <p>ChatGraph is a Chrome extension that transforms the Claude.ai conversation view into a visual, spatial canvas. This policy explains what information the extension accesses, how it's handled, and what is never collected.</p>
+
+    <div class="divider"></div>
+
+    <h2>What stays on your device</h2>
+    <p>ChatGraph is built to keep your information local. Nothing is stored on external servers, and the extension has no backend infrastructure of any kind.</p>
+    <ul>
+      <li><strong>Your API key</strong> — If you choose to enter an Anthropic API key to use the branching feature, it is saved locally on your device. It is never sent anywhere other than directly to Anthropic's official service when you make a branch request.</li>
+      <li><strong>Conversation text</strong> — The extension reads the messages displayed on your Claude.ai page in order to render them as nodes on the canvas. This text is processed entirely within your browser and is never stored, transmitted, or made accessible outside your device.</li>
+      <li><strong>Your preferences</strong> — Settings like the canvas toggle state are saved locally on your device.</li>
+    </ul>
+
+    <h2>What is shared, and with whom</h2>
+    <p>When you use the branching feature, ChatGraph sends the text you highlighted — along with a brief summary of its parent context — to Anthropic's API to generate a response. This is a direct connection from your browser to Anthropic, using your own key. ChatGraph does not sit between you and Anthropic, and does not see, log, or store these exchanges.</p>
+    <p>Beyond that, no information is shared with anyone. ChatGraph has no analytics, no usage tracking, no advertising, and no telemetry of any kind.</p>
+
+    <h2>What is never collected</h2>
+    <p>ChatGraph does not access or collect any of the following:</p>
+    <ul>
+      <li>Your name, email address, or any personal identifiers</li>
+      <li>Your browsing history or activity on other websites</li>
+      <li>Your location</li>
+      <li>Financial or payment information</li>
+      <li>Health information</li>
+      <li>Cookies or login sessions from Claude.ai</li>
+    </ul>
+
+    <h2>No external code</h2>
+    <p>ChatGraph does not download or run any code from outside the extension. Everything the extension does is contained within the files you install.</p>
+
+    <h2>Removing your data</h2>
+    <p>Your API key can be cleared at any time through the extension's popup panel. Uninstalling the extension removes all locally saved data. The conversation canvas exists only while the page is open and is not written to disk.</p>
+
+    <h2>Children's privacy</h2>
+    <p>ChatGraph is not designed for or directed at anyone under the age of 13 and does not knowingly collect information from children.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If this policy is updated, the revised version will be posted here with a new date. Continued use of the extension after a change constitutes acceptance of the updated terms.</p>
+
+    <h2>Contact</h2>
+    <p>If you have questions about this policy or about ChatGraph, you can reach us through the <a href="https://github.com/AhvnerZV/chatgraph-extension">ChatGraph GitHub page</a>.</p>
+
+    <div class="footer">
+      &copy; 2026 ChatGraph. All rights reserved.
+    </div>
+
+  </div>
+</body>
+</html>
